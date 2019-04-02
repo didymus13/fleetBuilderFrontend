@@ -10,7 +10,7 @@
     ul
       li(v-for="fleet in fleets" :key="fleet.id")
         nuxt-link(:to="{ name: 'fleets-id', params: { id: fleet.id, payload: fleet } }")
-          | ( {{ fleet.total }} / {{ fleet.max }} )
+          | ( {{ fleet.total || 0 }} / {{ fleet.max || 0 }} )
           | {{ fleet.name || fleet.id }}
         button.button.is-danger.is-small(@click="deleteFleet(fleet)")
           b-icon(icon="delete")
@@ -31,7 +31,7 @@ export default {
     },
     async deleteFleet(fleet) {
       await this.$axios.$delete(`fleets/${fleet.id}`)
-      this.fleets = await this.$axios.get('fleets')
+      this.fleets = await this.$axios.$get('fleets')
     }
   }
 }
