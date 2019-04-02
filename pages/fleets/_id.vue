@@ -106,7 +106,12 @@ export default {
     async openUpgradeSelect(type, ship) {
       this.showUpgradeSelect = true
       this.selectedShip = ship
-      this.upgradeList = await this.$axios.$get('upgrades', { params: { type: type } })
+      const params = {
+        type: type,
+        faction: ['none', this.fleet.faction],
+        restrictions: [...ship.ship.keywords, 'none']
+      }
+      this.upgradeList = await this.$axios.$get('upgrades', { params: params })
     },
 
     async openShipSelect(faction) {
